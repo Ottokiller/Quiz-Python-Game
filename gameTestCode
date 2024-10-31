@@ -1,0 +1,64 @@
+# Dictionary to store quiz questions and answers
+questions = {
+    "What is the capital of France?": "Paris",
+    "What is 5 + 7?": "12",
+    "What color is the sky on a clear day?": "Blue",
+    "Which animal is known as the King of the Jungle?": "Lion",
+    "How many days are in a leap year?": "366"
+}
+
+# Function to ask questions and check answers
+def quiz_game():
+    score = 0  # Initialize the score
+
+    print("Welcome to the Quiz Game!")
+    print("Answer the following questions:\n")
+    
+    # Loop through the dictionary of questions
+    for question, answer in questions.items():
+        user_answer = input(f"{question} ").strip()  # Get user's answer
+        if user_answer.lower() == answer.lower():  # Case-insensitive comparison
+            print("Correct!")
+            score += 1  # Increase the score if correct
+        else:
+            print(f"Wrong! The correct answer was {answer}.")
+    
+    print(f"\nYour final score is: {score}/{len(questions)}\n")
+    return score
+
+# Function to read high scores from file
+def read_high_scores():
+    try:
+        with open("high_scores.txt", "r") as file:
+            scores = file.readlines()
+            return [int(score.strip()) for score in scores]
+    except FileNotFoundError:
+        return []  # If file doesn't exist, return an empty list
+
+# Function to save high scores to file
+def save_high_score(new_score):
+    high_scores = read_high_scores()
+    high_scores.append(new_score)
+    
+    # Keep only top 5 scores, sorted in descending order
+    high_scores = sorted(high_scores, reverse=True)[:5]
+
+    with open("high_scores.txt", "w") as file:
+        for score in high_scores:
+            file.write(f"{score}\n")
+
+    print("\nHigh Scores:")
+    for i, score in enumerate(high_scores, 1):
+        print(f"{i}. {score}")
+
+# Main program logic
+def main():
+    # Play the quiz game
+    score = quiz_game()
+
+    # Save and display high scores
+    save_high_score(score)
+
+# Call the main function to start the game
+if __name__ == "__main__":
+    main()
