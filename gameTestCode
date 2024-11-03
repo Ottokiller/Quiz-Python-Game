@@ -24,40 +24,11 @@ def quiz_game():
             print(f"Wrong! The correct answer was {answer}.")
     
     print(f"\nYour final score is: {score}/{len(questions)}\n")
-    return score
-
-# Function to read high scores from file
-def read_high_scores():
-    try:
-        with open("high_scores.txt", "r") as file:
-            scores = file.readlines()
-            return [int(score.strip()) for score in scores]
-    except FileNotFoundError:
-        return []  # If file doesn't exist, return an empty list
-
-# Function to save high scores to file
-def save_high_score(new_score):
-    high_scores = read_high_scores()
-    high_scores.append(new_score)
-    
-    # Keep only top 5 scores, sorted in descending order
-    high_scores = sorted(high_scores, reverse=True)[:5]
-
-    with open("high_scores.txt", "w") as file:
-        for score in high_scores:
-            file.write(f"{score}\n")
-
-    print("\nHigh Scores:")
-    for i, score in enumerate(high_scores, 1):
-        print(f"{i}. {score}")
 
 # Main program logic
 def main():
     # Play the quiz game
-    score = quiz_game()
-
-    # Save and display high scores
-    save_high_score(score)
+    quiz_game()
 
 # Call the main function to start the game
 if __name__ == "__main__":
